@@ -1,4 +1,4 @@
-# Pi-Touchscreen-Dimmer
+# pi-touchscreen-dimmer
 Leaving the backlight on the Official Raspberry Pi touchscreen can quickly wear it out and waste power.
 If you have a use that requires the pi to be on all the time, but does not require the
 display on all the time, then turning off the backlight or dimming it while not in use can dramatically
@@ -6,7 +6,7 @@ increase the life of the backlight and save power.
 
 This work is based on the original by Timothy Hollabaugh https://github.com/timothyhollabaugh/pi-touchscreen-timeout.git and the a lot of changes kindly done by Dougie Lawson https://github.com/DougieLawson/backlight_dimmer.git This readme is an edited version of Dougie's readme (originally by Timothy) with applicable changes
 
-Pi-Touchscreen-Dimmer will transparently dim or turn off the display backlight after there
+pi-touchscreen-dimmer will transparently dim or turn off the display backlight after there
 has been no input for a specifed timeout, independent of anything using the display
 at the moment. It will then turn the touchscreen back on when input is received. The
 timeout period and the level it dims to is set by a command-line argument.  Dimming to a level 0 will mean the backlight is off.
@@ -24,7 +24,7 @@ to adjust the backlight brightness. The event device is a command-line parameter
 
 Clone the repository and change directories:
 ```
-git clone https://github.com/eskdale/Pi-Touchscreen-Dimmer.git
+git clone https://github.com/eskdale/pi-touchscreen-dimmer.git
 cd pi-touchscreen-dimmer
 ```
 Assuming you don't have other input devices
