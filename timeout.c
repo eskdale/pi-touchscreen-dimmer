@@ -157,7 +157,7 @@ int main(int argc, char* argv[]){
 
                 if(difftime(now, touch) > timeout) {
 				if (current_brightness != min_brightness) {
-				current_brightness -= 15;
+				current_brightness -= 5;
 				if (current_brightness < min_brightness) current_brightness = min_brightness;
 				printf("Brightness now %d\n", current_brightness);
 				fprintf(brightfd, "%d\n", current_brightness);

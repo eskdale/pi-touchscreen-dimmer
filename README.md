@@ -4,7 +4,7 @@ If you have a use that requires the pi to be on all the time, but does not requi
 display on all the time, then turning off the backlight or dimming it while not in use can dramatically
 increase the life of the backlight and save power.
 
-This work is based on the original by Timothy Hollabaugh https://github.com/timothyhollabaugh/pi-touchscreen-timeout.git and the changes kindly done by Dougie Lawson https://github.com/DougieLawson/backlight_dimmer.git This readme is an edited version of Dougie's readme with applicable changes
+This work is based on the original by Timothy Hollabaugh https://github.com/timothyhollabaugh/pi-touchscreen-timeout.git and the a lot of changes kindly done by Dougie Lawson https://github.com/DougieLawson/backlight_dimmer.git This readme is an edited version of Dougie's readme (originally by Timothy) with applicable changes
 
 Pi-Touchscreen-Dimmer will transparently dim or turn off the display backlight after there
 has been no input for a specifed timeout, independent of anything using the display
@@ -27,19 +27,46 @@ Clone the repository and change directories:
 git clone https://github.com/eskdale/Pi-Touchscreen-Dimmer.git
 cd pi-touchscreen-dimmer
 ```
+Assuming you don't have other input devices
+Run it  - This will give a 10 second timeout with a minumum brightness of 15 reset by event0.
+```
+sudo ./timeout 10 15 event0
+```
 
-Build and run it!
+or Build and run it!
 ```
 make
 sudo ./timeout 10 15 event0
 ```
 
+If you have multiple devices you can use the lsinput command to find which they are.  If you haven't installed it already
+
+```
+sudo apt install input-utils
+lsinput
+
+```
+
 Multiple devices may be specified.
 
-**Note:** It must be run as root or with `sudo` to be able to access the backlight.
-It can be run at startup, for example by putting a line in
-`/etc/rc.local`
+**Note:** It must be run as root or with `sudo` to be able to access the backlight, unless you run the following
+```
+sudo su -c 'echo SUBSYSTEM==\"backlight\", RUN+=\"/bin/chmod 0666 /sys/class/backlight/%k/brightness /sys/class/backlight/%k/bl_power\" > /etc/udev/rules.d/99-backlight.rules'
+sudo reboot
+```
 
+Use the following to change the brightness manually
+```
+echo 120 > /sys/class/backlight/rpi_backlight/brightness
+```
+It can be run at startup, for example by putting a line in
+`/etc/rc.local`  copy the files `timout` and `run-dimmer.sh` to the /etc folder
+
+Add the line below to the `/etc/rc.local` This needs you to have lsinput installed as above.  The run-dimmer.sh will determine the event number for the Touchscreen so even if you have other devices it will use the touchscreen event.  You may wish to edit this file to modify the delay and the minimum brightness and also if you wish add events for keyboard or mice to also reset the timeout.
+
+```
+/etc/run-dimmer.sh
+```
 
 ### Conflict with console blanker
 
@@ -64,5 +91,3 @@ In this case, follow one of these methods for disabling the console blanker:
 ```
   BLANK_TIME=0
 ```
-
-&copy; Copyright 2019, Dougie Lawson, all rights reserved.
