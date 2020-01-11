@@ -13,6 +13,7 @@
    2019-01-22 Dougie Lawson
    (C) Copyright 2019, Dougie Lawson, all right reserved.
    2019-01-24 Jon Eskdale
+   2020-01-11 Jon Eskdale change to full brightness if changing when touch detected
 */
 
 #include <stdio.h>
@@ -77,7 +78,7 @@ int main(int argc, char* argv[]){
 		printf ("Min Brightness must be 0-254\n");
 		exit(1);
 	}
-       
+
 
         int num_dev = argc - 3;
         int eventfd[num_dev];
@@ -140,11 +141,11 @@ int main(int argc, char* argv[]){
         while(1) {
                 now = time(NULL);
 
-               	for (i = 0; i < num_dev; i++) {               
+               	for (i = 0; i < num_dev; i++){
                        	event_size = read(eventfd[i], event, size*64);
                        	if(event_size != -1) {
 				touch =  now;
-                		if (current_brightness == min_brightness) {
+                		if (current_brightness < actual_brightness) {
                                		printf("%s Value: %d, Code: %x\n", device[i], event[0].value, event[0].code);
 					current_brightness = actual_brightness;
 					printf("Brightness now %d\n", current_brightness);
