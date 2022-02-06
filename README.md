@@ -48,6 +48,7 @@ lsinput
 ```
 
 Multiple devices may be specified.
+Look for `name: generic ft5x06 (00)` with bustype: `BUS_I2C` in the list.
 
 **Note:** It must be run as root or with `sudo` to be able to access the backlight, unless you run the following
 ```
@@ -59,6 +60,8 @@ Use the following to change the brightness manually
 ```
 echo 120 > /sys/class/backlight/rpi_backlight/brightness
 ```
+or just manually change the value of the number in that file.
+
 It can be run at startup, for example by putting a line in
 `/etc/rc.local`  copy the files `timout` and `run-dimmer.sh` to the /etc folder
 
