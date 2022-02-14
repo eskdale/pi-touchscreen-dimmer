@@ -58,7 +58,7 @@ sudo reboot
 
 Use the following to change the brightness manually
 ```
-echo 120 > /sys/class/backlight/rpi_backlight/brightness
+echo 120 > /sys/class/backlight/10-0045/brightness
 ```
 or just manually change the value of the number in that file.
 
