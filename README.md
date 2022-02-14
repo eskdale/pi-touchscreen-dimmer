@@ -16,7 +16,7 @@ display. Whatever is running will still receive an event, even if the display
 is off.
 
 The program will use a linux event device like `/dev/input/event0` to receive events
-from the touchscreen, keyboard, mouse, etc., and `/sys/class/backlight/rpi_backlight/brightness`
+from the touchscreen, keyboard, mouse, etc., and `/sys/class/backlight/10-0045/brightness`
 to adjust the backlight brightness. The event device is a command-line parameter without the
 /dev/input/ path specification.
 
