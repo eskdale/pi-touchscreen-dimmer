@@ -11,6 +11,9 @@ timeout_period=30 # seconds
 #0-253 0 will be backlight off, 9 is probably the smallest you would use with my test display
 min_brightness=15
 
+#start at max brightness
+cat /sys/class/backlight/10-0045/max_brightness | tee /sys/class/backlight/10-0045/brightness
+
 # Find the device the touchscreen uses.  This can change depending on
 # other input devices (keyboard, mouse) are connected at boot time.
 for line in $(lsinput); do
