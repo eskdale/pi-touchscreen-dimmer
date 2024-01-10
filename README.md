@@ -62,8 +62,13 @@ echo 120 > /sys/class/backlight/10-0045/brightness
 ```
 or just manually change the value of the number in that file.
 
+## Running at Startup
 It can be run at startup, for example by putting a line in
-`/etc/rc.local`  copy the files `timout` and `run-dimmer.sh` to the /etc folder
+`/etc/rc.local` or using systemd.
+
+First, copy the files `timout` and `run-dimmer.sh` to the /etc folder for convenience.
+
+### Using rc.local
 
 Add the line below to the `/etc/rc.local` This needs you to have lsinput installed as above.  The run-dimmer.sh will determine the event number for the Touchscreen so even if you have other devices it will use the touchscreen event.  You may wish to edit this file to modify the delay and the minimum brightness and also if you wish add events for keyboard or mice to also reset the timeout.
 
@@ -71,7 +76,39 @@ Add the line below to the `/etc/rc.local` This needs you to have lsinput install
 /etc/run-dimmer.sh
 ```
 
-### Conflict with console blanker
+### Using systemd
+
+You may prefer to use systemd to run your scripts at startup. You can run the `timeout` program directly and create a service unit to do so.
+
+- In `run-dimmer.sh`, remove the `&` at the end of the `nice` command at the end of the script
+  - This will allow the script to have ownership of the dimmer program
+- Create a file called `dimmer.service` that contains the following:
+```
+[Unit]
+Description=Backlight Dimmer
+
+[Service]
+ExecStartPre=/bin/sleep 5
+ExecStart=/etc/run-dimmer.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=graphical.target
+```
+The `/bin/sleep 5` delays the dimmer from starting for 5 seconds to ensure the display is discoverable by the script.
+- Copy the `dimmer.service` file to `/lib/systemd/system`:
+```
+sudo cp /path/to/dimmer.service /lib/systemd/system
+```
+- Start the service and enable it to be started automatically on system start:
+```
+sudo systemctl enable dimmer.service --now
+```
+(the now flag also starts the service after enabling it)
+
+
+## Conflict with console blanker
 
 When running this program without X Windows running, such as when running a Kivy
 program in the console at startup, you may run into a conflict with a console
